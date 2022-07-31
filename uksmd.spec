@@ -11,13 +11,14 @@ Source0  : file:///aot/build/clearlinux/packages/uksmd/uksmd-v31.7.2022.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
+Requires: uksmd-bin = %{version}-%{release}
+Requires: uksmd-services = %{version}-%{release}
 Requires: libcap-ng
 Requires: libcap-ng-dev
 Requires: procps-ng
 Requires: procps-ng-dev
 BuildRequires : acl-dev
 BuildRequires : acl-dev32
-BuildRequires : buildreq-meson
 BuildRequires : libcap-ng
 BuildRequires : libcap-ng-dev
 BuildRequires : procps-ng
@@ -30,6 +31,23 @@ BuildRequires : systemd-dev
 %description
 No detailed description available
 
+%package bin
+Summary: bin components for the uksmd package.
+Group: Binaries
+Requires: uksmd-services = %{version}-%{release}
+
+%description bin
+bin components for the uksmd package.
+
+
+%package services
+Summary: services components for the uksmd package.
+Group: Systemd services
+
+%description services
+services components for the uksmd package.
+
+
 %prep
 %setup -q -n uksmd
 cd %{_builddir}/uksmd
@@ -40,7 +58,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1659271704
+export SOURCE_DATE_EPOCH=1659271904
 ## altflags1f content
 ## altflags1
 unset ASFLAGS
@@ -118,3 +136,11 @@ DESTDIR=%{buildroot} ninja -C builddir install
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/uksmd
+
+%files services
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/uksmd.service
