@@ -1,0 +1,4 @@
+--buildtype=release
+-Doptimization=3
+-Db_lto=true
+-Db_lto_threads=20
